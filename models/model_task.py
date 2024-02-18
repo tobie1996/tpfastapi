@@ -7,4 +7,4 @@ class Task(Base):
     __tablename__ = "tasks"
     id = Column(Integer, primary_key=True, index=True)
     task = Column(String, index=True)
-    completed = Column(String, default=False)
+    completed = Column(Boolean, default=False)

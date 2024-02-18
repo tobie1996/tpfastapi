@@ -4,6 +4,8 @@ from schemas import task_schemas
 from schemas.task_schemas import CreateTask, UpdateTask
 from models import model_task
 from typing import List, Optional
+from sqlalchemy import cast, Boolean
+
 
 # pour creer une tache
 
@@ -56,7 +58,7 @@ def update_task(db: Session, task: task_schemas.UpdateTask):
 # operation des filtrage
 
 
-def get_tasks(db: Session, completed: Optional[bool]):
+def filter_task(db: Session, completed: str):
     if completed is not None:
         tasks = db.query(Task).filter(Task.completed == completed).all()
     else:

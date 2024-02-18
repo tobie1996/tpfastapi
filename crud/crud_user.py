@@ -21,6 +21,7 @@ def create_user(db: Session, user: CreateUser):
 def get_all_users(db: Session):
     return db.query(model_user.User).all()
 
+
 # recuperer un users uniquement
 
 

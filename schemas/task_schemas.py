@@ -6,6 +6,11 @@ class CreateTask(BaseModel):
     completed: str
 
 
+class GetTask(BaseModel):
+    task: str
+    completed: str
+
+
 class DeleteTask(BaseModel):
     id: int
 

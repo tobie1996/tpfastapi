@@ -9,6 +9,9 @@ class CreateUser(BaseModel):
 
 class GetOneUser(BaseModel):
     id: int
+    username: str
+    email: str
+    password: str
 
 
 class DeleteOneUser(BaseModel):
