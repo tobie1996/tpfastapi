@@ -1,10 +1,10 @@
 
 
 from fastapi import APIRouter, Depends, HTTPException
-from crud.crud_task import create_Task, get_all_Task, get_task
+from crud.crud_task import create_Task, delete_task, filter_task, get_all_Task, get_task, update_task
 from sqlalchemy.orm import Session
 from database import get_db
-from schemas.task_schemas import CreateTask, GetTask, UpdateTask
+from schemas.task_schemas import CreateTask, UpdateTask
 
 
 tasks_router = APIRouter(
@@ -17,39 +17,39 @@ tasks_router = APIRouter(
 # LAS GESTION DES TASKS
 
 
-@tasks_router.post("/task/add_task")
+@tasks_router.post("/add")
 def create_task(task: CreateTask, db: Session = Depends(get_db)):
     db_task = create_Task(db, task)
     return db_task
 
 
-@tasks_router.delete("/delete_task/{task_id}")
-def delete_task(task_id: int, db: Session = Depends(get_db)):
+@tasks_router.delete("/delete/{task_id}")
+def delete_tasks(task_id: int, db: Session = Depends(get_db)):
     delete_task(db, task_id)
-    return {"message": "Utilisateur supprimé"}
+    return {"message": "tache supprimée"}
 
 
-@tasks_router.get("/get_task/{task_id}", response_model=GetTask)
-def get_one_task(task_id: int, db: Session = Depends(get_db)):
+@tasks_router.get("/get/{task_id}")
+def get_one_tasks(task_id: int, db: Session = Depends(get_db)):
     db_task = get_task(db, task_id)
     if db_task is None:
-        raise HTTPException(status_code=404, detail="Utilisateur non trouvé")
+        raise HTTPException(status_code=404, detail="tache non trouvé")
     return db_task
 
 
-@tasks_router.get("/tasks/get_all_task")
+@tasks_router.get("/get_all")
 def get_alls_tasks(db: Session = Depends(get_db)):
     tasks = get_all_Task(db)
     return tasks
 
 
-@tasks_router.put("/task/update_task", response_model=UpdateTask)
-def update_task(task: UpdateTask, db: Session = Depends(get_db)):
+@tasks_router.put("/update")
+def update_tasks(task: UpdateTask, db: Session = Depends(get_db)):
     db_task = update_task(db, task)
     return db_task
 
 
-@tasks_router.get("/tasks/tasks/")
-def filter_task(completed: str, db: Session = Depends(get_db)):
+@tasks_router.get("/filter")
+def filter_tasks(completed: str, db: Session = Depends(get_db)):
     tasks = filter_task(db, completed)
     return tasks
